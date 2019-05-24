@@ -1,39 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import classnames from 'classnames';
+import styles from './Button.module.css';
 
 const Button = ({ children, className, onClick }) => {
-  const Btn = styled.button`
-    position: relative;
-    width: 100%;
-    height: 30px;
-    line-height: 20px;
-    padding: 0 10px;
-    color: white;
-    background-color: #9b59b6;
-    border: none;
-    border-radius: 4px;
-    font-wight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    
-    :hover {
-      background-color: rgba(155, 89, 182, 0.8);
-    }
-    
-    :focus {
-      outline: none;
-    }
-    
-    :active {
-      background-color: rgba(155, 89, 182, 0.9);
-    }
-  `;
   return (
-    <Btn className={className} onClick={onClick}>
+    <button className={classnames(styles.button, className)} onClick={onClick}>
       {children}
-    </Btn>
+    </button>
   )
 };
 

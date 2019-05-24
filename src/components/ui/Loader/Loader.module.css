@@ -1,0 +1,23 @@
+@keyframes loaderAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.item {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  border: 6px solid rgba(155, 89, 182, 0.6);
+  border-right-color: #9b59b6;
+  border-radius: 50%;
+  animation: loaderAnimation 1.5s infinite linear;
+  box-sizing: border-box;
+}

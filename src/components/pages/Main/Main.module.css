@@ -1,0 +1,9 @@
+.main {
+  min-height: 100%;
+}
+
+.loader {
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 0;
+}

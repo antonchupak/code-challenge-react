@@ -1,16 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+import styles from './Settings.module.css';
 
 const Settings = () => {
-  const Container = styled.main`
-    position: relative;
-    padding: 20px;
-  `;
-
   return (
-    <Container>
+    <main className={styles.main}>
       Settings Page
-    </Container>
+    </main>
   )
 };
 

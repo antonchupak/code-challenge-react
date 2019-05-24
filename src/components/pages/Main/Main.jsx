@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styles from './Main.module.css';
 
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
@@ -18,16 +18,10 @@ class Main extends React.Component {
   };
 
   renderLoader = () => {
-    const LoaderContainer = styled.div`
-      margin-bottom: 20px;
-      text-align: center;
-      line-height: 0;
-    `;
-
     return (
-      <LoaderContainer>
+      <div className={styles.loader}>
         <Loader />
-      </LoaderContainer>
+      </div>
     )
   };
 
@@ -38,15 +32,11 @@ class Main extends React.Component {
       users: [...toJS(users)],
     };
 
-    const Main = styled.main`
-      min-height: 100%;
-    `;
-
     return (
-      <Main>
+      <main className={styles.main}>
         <UsersGrid { ...userGridProps } />
         { isLoading ? this.renderLoader() : false }
-      </Main>
+      </main>
     )
   }
 }

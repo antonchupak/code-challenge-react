@@ -21,3 +21,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.idea
+.idea/**
+.idea/*
+.DS_STORE
+.module-cache
+*.log*
+_nogit
+.vscode
+
+public/

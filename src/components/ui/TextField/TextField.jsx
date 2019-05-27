@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './TextField.module.css';
 
-const TextField = ({  className, value, name, placeholder, onChange }) => {
+const TextField = ({ className, value, name, placeholder, onChange }) => {
   const onInputChange = (event) => {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
@@ -12,9 +12,9 @@ const TextField = ({  className, value, name, placeholder, onChange }) => {
   };
 
   return (
-    <div className={styles.field}>
+    <div className={classnames(className, styles.field)}>
       <input
-        className={classnames(styles.input, className)}
+        className={styles.input}
         placeholder={placeholder}
         value={value}
         name={name}

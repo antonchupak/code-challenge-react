@@ -2,18 +2,17 @@ import { observable, action } from 'mobx';
 import UsersAPI from '../services/users';
 
 import { transformUsersData } from '../framework/dataTransformers';
-import { USER_API_DEFAULT_NATIONALITY } from '../framework/constants';
 
 class UsersStore {
   @observable users = [];
   @observable filter = 'lalala';
-  @observable nationality = USER_API_DEFAULT_NATIONALITY;
+  @observable nationality = '';
   @observable isLoading = true;
 
-  @action loadUsers = (nat) => {
+  @action loadUsers = () => {
     this.isLoading = true;
 
-    UsersAPI.getRandomUsers(nat)
+    UsersAPI.getRandomUsers(this.nationality)
       .then((response) => {
         const { data } = response;
 
@@ -31,6 +30,10 @@ class UsersStore {
 
   @action updateFilter = (value) => {
     this.filter = value;
+  };
+
+  @action updateNationality = (value) => {
+    this.nationality = value;
   };
 }
 

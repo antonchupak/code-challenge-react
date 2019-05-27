@@ -27,16 +27,8 @@
   bottom: -4px;
   width: 0;
   height: 4px;
-  background-color: #9b59b6;
+  background-color: white;
   transition: all 0.2s ease-in-out;
-}
-
-.link:hover {
-  color: #9b59b6;
-}
-
-.link.active {
-  color: #9b59b6;
 }
 
 .link.active::after {

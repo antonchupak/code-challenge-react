@@ -4,6 +4,7 @@ import _get from 'lodash.get';
 // data from https://randomuser.me/
 // to our UserCard component API
 export const transformUsersData = (users) => users.map((user) => {
+  debugger;
   return ({
     firstName: _get(user, 'name.first', ''),
     lastName: _get(user, 'name.last', ''),

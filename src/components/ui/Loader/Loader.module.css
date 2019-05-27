@@ -15,8 +15,8 @@
   height: 100%;
   width: 100%;
   padding: 20px;
-  border: 6px solid rgba(155, 89, 182, 0.6);
-  border-right-color: #9b59b6;
+  border: 6px solid rgba(0, 0, 0, 0.6);
+  border-right-color: black;
   border-radius: 50%;
   animation: loaderAnimation 1.5s infinite linear;
   box-sizing: border-box;

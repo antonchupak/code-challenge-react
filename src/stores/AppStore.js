@@ -1,11 +1,15 @@
 import { observable, action } from 'mobx';
 
 class AppStore {
-  @observable loading = true;
+  @observable modals = observable.map();
 
-  @action changeLoading = () => {
-    this.loading = !this.loading;
-  }
+  @action showModal = (id, props) => {
+    this.modals.set(id, props);
+  };
+
+  @action hideModal = () => {
+    this.modals.clear()
+  };
 }
 
 export default new AppStore();

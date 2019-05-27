@@ -8,10 +8,15 @@ import { USER_NATIONALITIES } from './../../../framework/constants';
 @inject('usersStore')
 @observer
 class Settings extends React.Component {
+  // TODO: Add PropTypes and defaultProps
+
   onNationalityChange = (value) => {
     const { usersStore } = this.props;
     const { updateNationality, loadUsers } = usersStore;
+
+    // Process special case for load all nationalities
     const resolveNationality = value === 'All' ? '' : value;
+
     updateNationality(resolveNationality);
     loadUsers();
   };

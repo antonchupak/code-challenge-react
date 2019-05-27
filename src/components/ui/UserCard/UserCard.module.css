@@ -37,6 +37,10 @@
   line-height: 16px;
 }
 
+.text:nth-child(2) {
+  margin-left: 4px;
+}
+
 .email {
   white-space: nowrap;
   text-overflow: ellipsis;

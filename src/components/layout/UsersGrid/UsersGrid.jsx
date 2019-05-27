@@ -4,18 +4,28 @@ import styles from './UserGrid.module.css';
 
 import { UserCard } from '../../index';
 
-const UserGrid = ({ users }) => (
+const UserGrid = ({ users, onUserClick }) => (
   <div className={styles.grid}>
-    { users.length ? users.map((user, index) => (<UserCard { ...user } key={index} />)) : false }
+    { users.map((user, index) => {
+      const props = {
+        ...user,
+        index,
+        onDetailsClick: onUserClick
+      };
+
+      return (<UserCard { ...props } key={user.id} />)
+    })};
   </div>
 );
 
 UserGrid.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array.isRequired,
+  onUserClick: PropTypes.func
 };
 
 UserGrid.defaultProps = {
-  users: []
+  users: [],
+  onUserClick: () => {}
 };
 
 export default UserGrid;

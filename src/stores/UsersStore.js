@@ -5,13 +5,15 @@ import { transformUserData } from '../framework/dataTransformers';
 
 class UsersStore {
   @observable users = observable([]);
-  @observable page = 1;
+  @observable usersFiltered = observable([]);
+  @observable page = 0;
   @observable filter = '';
   @observable nationality = '';
   @observable isLoading = true;
 
   @action loadUsers = () => {
     this.isLoading = true;
+    this.increasePage();
 
     UsersAPI.getRandomUsers(this.nationality, this.page)
       .then((response) => {
@@ -29,7 +31,6 @@ class UsersStore {
       })
       .finally(() => {
         this.isLoading = false;
-        this.increasePage();
       });
   };
 
@@ -43,6 +44,10 @@ class UsersStore {
 
   @action updateFilter = (value) => {
     this.filter = value;
+    this.usersFiltered = this.users.filter((user) => {
+      const name = `${user.firstName} ${user.lastName}`;
+      return name.indexOf(value.toLowerCase()) !== -1;
+    });
   };
 
   @action updateNationality = (value) => {

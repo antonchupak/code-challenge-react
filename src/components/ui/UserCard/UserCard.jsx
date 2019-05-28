@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './UserCard.module.css';
 
 import Flag from 'react-country-flag';
 import { Avatar, Button } from './../../index';
 
-const UserCard = ({ firstName, lastName, userName, email, image, index, country, onDetailsClick }) => {
+const UserCard = memo(function ({ firstName, lastName, userName, email, image, index, country, onDetailsClick }) {
   const flagProps = {
     code: country,
     styleProps: { marginLeft: '6px', top: '-5px', width: '14px', height: '14px' },
@@ -29,7 +29,7 @@ const UserCard = ({ firstName, lastName, userName, email, image, index, country,
       <Button onClick={() => onDetailsClick(index)}>Details</Button>
     </div>
   );
-}
+});
 
 UserCard.propTypes = {
   index: PropTypes.number,

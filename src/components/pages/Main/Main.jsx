@@ -9,6 +9,14 @@ import { USER_API_NUMBER_OF_MAX_USERS, MODAL_USER_DETAILS_KEY } from '../../../f
 @inject('appStore', 'usersStore')
 @observer
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showUpButton: false
+    }
+  }
+
   static propTypes = {
     appStore: PropTypes.shape({
       showModal: PropTypes.func
@@ -24,7 +32,6 @@ class Main extends React.Component {
   // TODO: Add PropTypes and defaultProps
 
   componentDidMount() {
-    this.props.usersStore.loadUsers();
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -33,13 +40,14 @@ class Main extends React.Component {
   }
 
   onScroll = () => {
+    this.resolveUpButtonShowing();
     const { usersStore } = this.props;
     const { isLoading, loadUsers, usersCounter } = usersStore;
-
-    const breakpointForLoading = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - window.innerHeight);
     const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
 
     if (isLoading || noMoreUsers) return;
+
+    const breakpointForLoading = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - window.innerHeight);
 
     if (breakpointForLoading) {
       loadUsers();
@@ -51,6 +59,22 @@ class Main extends React.Component {
     const userData = usersStore.getUserData(index);
 
     appStore.showModal(MODAL_USER_DETAILS_KEY, userData);
+  };
+
+  onUpButtonClick = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  resolveUpButtonShowing = () => {
+    if (window.scrollY > window.innerHeight) {
+      this.setState(() => ({ showUpButton: true }))
+    } else {
+      this.setState(() => ({ showUpButton: false }))
+    }
   };
 
   renderLoader = () => (
@@ -65,21 +89,46 @@ class Main extends React.Component {
     </div>
   );
 
-  render() {
+  renderDefaultUsers = () => {
     const { usersStore } = this.props;
-    const { users, isLoading, usersCounter } = usersStore;
-    const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
+    const { users  } = usersStore;
 
-    const userGridProps = {
+    const usersGridProps = {
       users,
       onUserClick: this.onUserClick
     };
 
+    return (<UsersGrid { ...usersGridProps } />)
+  };
+
+  renderFilteredUsers = () => {
+    const { usersStore } = this.props;
+    const { usersFiltered } = usersStore;
+
+    const usersFilteredGridProps = {
+      users: usersFiltered,
+      onUserClick: this.onUserClick
+    };
+
+    return (<UsersGrid { ...usersFilteredGridProps } />)
+  };
+
+  renderButton = () => {
+    return (<span className={styles.buttonTop} onClick={this.onUpButtonClick} />)
+  };
+
+  render() {
+    const { usersStore } = this.props;
+    const { showUpButton } = this.state;
+    const { filter, isLoading, usersCounter } = usersStore;
+    const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
+
     return (
       <main className={styles.main}>
-        <UsersGrid { ...userGridProps } />
-        { isLoading ? this.renderLoader() : false }
-        { noMoreUsers ? this.renderEndBlock() : false }
+        { !filter ? this.renderDefaultUsers() : this.renderFilteredUsers() }
+        { isLoading && this.renderLoader() }
+        { noMoreUsers && !filter && this.renderEndBlock() }
+        { showUpButton && this.renderButton() }
       </main>
     )
   }

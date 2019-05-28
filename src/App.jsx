@@ -25,6 +25,7 @@ class App extends React.Component {
   }
 
   onFilterChange = (value) => {
+    if (value === ' ') return;
     this.props.usersStore.updateFilter(value);
   };
 

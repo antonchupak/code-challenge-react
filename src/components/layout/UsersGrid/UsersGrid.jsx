@@ -14,7 +14,7 @@ const UserGrid = ({ users, onUserClick }) => (
       };
 
       return (<UserCard { ...props } key={user.id} />)
-    })};
+    })}
   </div>
 );
 

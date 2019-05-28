@@ -4,7 +4,7 @@ import styles from './Main.module.css';
 import { inject, observer } from 'mobx-react';
 
 import { Loader, UsersGrid } from '../../index';
-import { MODAL_USER_DETAILS_KEY } from '../../../framework/constants';
+import { USER_API_NUMBER_OF_MAX_USERS, MODAL_USER_DETAILS_KEY } from '../../../framework/constants';
 
 @inject('appStore', 'usersStore')
 @observer
@@ -16,6 +16,7 @@ class Main extends React.Component {
     usersStore: PropTypes.shape({
       users: PropTypes.array,
       isLoading: PropTypes.bool,
+      usersCounter: PropTypes.number,
       getUserData: PropTypes.func
     })
   };
@@ -23,6 +24,7 @@ class Main extends React.Component {
   // TODO: Add PropTypes and defaultProps
 
   componentDidMount() {
+    this.props.usersStore.loadUsers();
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -32,11 +34,14 @@ class Main extends React.Component {
 
   onScroll = () => {
     const { usersStore } = this.props;
-    const { isLoading, loadUsers } = usersStore;
+    const { isLoading, loadUsers, usersCounter } = usersStore;
 
-    if (isLoading) return;
+    const breakpointForLoading = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - window.innerHeight);
+    const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
 
-    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight) - 150) {
+    if (isLoading || noMoreUsers) return;
+
+    if (breakpointForLoading) {
       loadUsers();
     }
   };
@@ -48,17 +53,22 @@ class Main extends React.Component {
     appStore.showModal(MODAL_USER_DETAILS_KEY, userData);
   };
 
-  renderLoader = () => {
-    return (
-      <div className={styles.loader}>
-        <Loader />
-      </div>
-    )
-  };
+  renderLoader = () => (
+    <div className={styles.loader}>
+      <Loader />
+    </div>
+  );
+
+  renderEndBlock = () => (
+    <div className={styles.end}>
+      <h5>End of users catalog</h5>
+    </div>
+  );
 
   render() {
     const { usersStore } = this.props;
-    const { users, isLoading } = usersStore;
+    const { users, isLoading, usersCounter } = usersStore;
+    const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
 
     const userGridProps = {
       users,
@@ -69,6 +79,7 @@ class Main extends React.Component {
       <main className={styles.main}>
         <UsersGrid { ...userGridProps } />
         { isLoading ? this.renderLoader() : false }
+        { noMoreUsers ? this.renderEndBlock() : false }
       </main>
     )
   }

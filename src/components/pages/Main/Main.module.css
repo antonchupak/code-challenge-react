@@ -7,3 +7,9 @@
   text-align: center;
   line-height: 0;
 }
+
+.end {
+  padding: 20px 0 40px;
+  text-align: center;
+  font-weight: bold;
+}

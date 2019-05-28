@@ -31,7 +31,7 @@ class App extends React.Component {
 
   render() {
     const { usersStore } = this.props;
-    const { filter, usersCounter } = usersStore;
+    const { filter } = usersStore;
 
     const headerProps = {
       links: NAVIGATION,
@@ -44,7 +44,6 @@ class App extends React.Component {
     return (
       <div className='container'>
         <Header { ...headerProps }  />
-        <span className='size'>Size: {usersCounter}</span>
         { this.props.children }
         <ModalContainer />
       </div>

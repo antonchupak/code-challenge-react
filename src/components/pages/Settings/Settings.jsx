@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { observer, inject } from 'mobx-react';
 import styles from './Settings.module.css';
 
@@ -8,17 +9,30 @@ import { USER_NATIONALITIES } from './../../../framework/constants';
 @inject('usersStore')
 @observer
 class Settings extends React.Component {
-  // TODO: Add PropTypes and defaultProps
+  static propTypes = {
+    usersStore: {
+      filter: PropTypes.string,
+      nationality: PropTypes.string,
+      updateNationality: PropTypes.func,
+      clearFilter: PropTypes.func,
+      loadUsers: PropTypes.func
+    }
+  };
 
   onNationalityChange = (value) => {
     const { usersStore } = this.props;
-    const { updateNationality, loadUsers } = usersStore;
+    const { filter, updateNationality, loadUsers, clearFilter } = usersStore;
 
     // Process special case for load all nationalities
     const resolveNationality = value === 'All' ? '' : value;
 
     updateNationality(resolveNationality);
     loadUsers();
+
+    // If the filter is active remove it when nationality was changed
+    if (filter) {
+      clearFilter();
+    }
   };
 
   render() {

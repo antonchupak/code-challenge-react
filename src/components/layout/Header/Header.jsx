@@ -7,13 +7,14 @@ import { Navigation, TextField } from '../../index';
 const Header = ({ links, searchProps }) => {
   const textFieldProps = {
     ...searchProps,
-    className: styles.filter,
-    placeholder: 'Search user by First / Last name',
+    placeholder: 'Search user by First / Last name'
   };
 
   return (
     <header className={styles.header}>
-      <TextField { ...textFieldProps } />
+      <div className={styles.search}>
+        <TextField { ...textFieldProps } />
+      </div>
       <Navigation links={links} />
     </header>
   )

@@ -22,14 +22,14 @@ class Main extends React.Component {
       showModal: PropTypes.func
     }),
     usersStore: PropTypes.shape({
+      filter: PropTypes.string,
       users: PropTypes.array,
-      isLoading: PropTypes.bool,
       usersCounter: PropTypes.number,
+      isLoading: PropTypes.bool,
+      loadUsers: PropTypes.func,
       getUserData: PropTypes.func
     })
   };
-
-  // TODO: Add PropTypes and defaultProps
 
   componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
@@ -42,10 +42,14 @@ class Main extends React.Component {
   onScroll = () => {
     this.resolveUpButtonShowing();
     const { usersStore } = this.props;
-    const { isLoading, loadUsers, usersCounter } = usersStore;
+    const { filter, isLoading, loadUsers, usersCounter } = usersStore;
     const noMoreUsers = usersCounter >= USER_API_NUMBER_OF_MAX_USERS;
 
-    if (isLoading || noMoreUsers) return;
+    // Stop fetching users if:
+    // 1) users fetching is in process
+    // 2) we have a maximum of users
+    // 3) searching by users is active
+    if (isLoading || noMoreUsers || filter) return;
 
     const breakpointForLoading = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - window.innerHeight);
 

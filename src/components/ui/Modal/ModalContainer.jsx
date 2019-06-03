@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import styles from './Modal.module.css';
 
@@ -7,7 +8,12 @@ import { ModalFactory } from './ModalFactory';
 @inject('appStore')
 @observer
 class ModalContainer extends React.Component {
-  // TODO: Add PropTypes and defaultProps
+  static propTypes = {
+    appStore: PropTypes.shape({
+      modals: PropTypes.object,
+      hideModal: PropTypes.func
+    })
+  };
 
   renderContent = () => {
     const { appStore } = this.props;

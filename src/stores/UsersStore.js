@@ -50,6 +50,10 @@ class UsersStore {
     });
   };
 
+  @action clearFilter = () => {
+    this.filter = '';
+  };
+
   @action updateNationality = (value) => {
     this.nationality = value;
     this.users.clear();
